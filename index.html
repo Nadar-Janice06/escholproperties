@@ -1,518 +1,375 @@
+<!-- index.html -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Eschol Properties — Home</title>
-  <meta name="description" content="Eschol Properties — buying & selling homes, farm lands and development plots across India." />
-
+  <title>Eschol Properties</title>
+  <meta name="description" content="Eschol Properties - Selling, Buying & Promoting, Lands, Residential Flats. Projects: Completed & In-Progress." />
   <style>
-    /* ==========================
-       Variables & Reset
-       ========================== */
+    /* -------------------------
+       Basic/resets
+       ------------------------- */
     :root{
-      --dark-green: #172615;
-      --light-green: #2a4725;
-      --glass-white: rgba(255,255,255,0.94);
-      --muted-white: rgba(255,255,255,0.86);
-      --accent: #cfe6d4;
+      --white: #ffffff;
+      --muted: #f4f6f7;
+      --text: #1e2a24;
+      --accent: #2a4725; /* light green you previously used (subtle accents) */
       --max-width: 1200px;
-      --radius: 12px;
-      --transition: 180ms ease;
+      --radius: 10px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
       font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background:var(--dark-green);
-      color:var(--muted-white);
+      background: var(--white);
+      color: var(--text);
       -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
     }
-    a{color:inherit}
+
+    a{color:inherit; text-decoration:none}
     img{max-width:100%; display:block}
 
-    /* ==========================
+    /* -------------------------
        Header
-       ========================== */
+       ------------------------- */
     header{
-      background:var(--light-green);
-      color:var(--dark-green);
       position:sticky;
       top:0;
       z-index:120;
-      box-shadow:0 2px 6px rgba(0,0,0,0.14);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:10px 18px;
+      background: var(--white);
+      border-bottom: 1px solid #e9ecec;
+      box-shadow: 0 2px 8px rgba(18,24,20,0.03);
     }
-    .header-left{display:flex; align-items:center; gap:12px}
-    .logo-circle{
-      width:56px; height:56px; border-radius:50%; background:#fff; overflow:hidden; display:flex; align-items:center; justify-content:center;
-      flex:0 0 56px;
+    .container{ max-width:var(--max-width); margin:0 auto; padding:0 20px; }
+    .nav-row{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding:12px 0;
     }
-    .logo-circle img{ width:88%; height:auto; display:block;}
-    .brand{ font-weight:600; color:#eaf4ea; letter-spacing:0.2px;}
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .brand img{ width:56px; height:56px; border-radius:50%;}
+    .brand h1{ margin:0; font-size:18px; letter-spacing:0.6px; color:var(--text); }
 
-    nav{display:flex; gap:18px; align-items:center}
-    nav a{ color: #072014; text-decoration:none; font-weight:600; padding:6px 8px; border-radius:6px;}
-    nav a:hover, nav a:focus{ background: rgba(0,0,0,0.06); outline:none }
+    nav{ display:flex; gap:18px; align-items:center; }
+    nav a { padding:8px 10px; border-radius:6px; font-weight:600; color:var(--text); }
+    nav a:hover{ background:var(--muted) }
 
-    /* mobile hamburger */
-    .hamburger{ display:none; width:44px; height:44px; align-items:center; justify-content:center; border-radius:6px; cursor:pointer; background:transparent; border:0; }
-    .hamburger svg{ width:22px; height:22px; }
+    /* dropdown */
+    .dropdown{ position:relative; }
+    .dropdown-menu{
+      position:absolute; left:0; top:calc(100% + 8px);
+      background:var(--white); min-width:220px; border:1px solid #eef2f2; padding:8px;
+      box-shadow:0 8px 22px rgba(12,18,14,0.06); border-radius:8px; display:none;
+    }
+    .dropdown:hover .dropdown-menu{ display:block; }
+    .dropdown-menu a{ display:block; padding:8px 10px; color:var(--text); border-radius:6px; }
+    .dropdown-menu a:hover{ background:var(--muted) }
 
-    /* ==========================
-       Hero / Carousel
-       ========================== */
+    /* -------------------------
+       Hero
+       ------------------------- */
     .hero{
-      position:relative;
-      min-height:92vh;
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.92));
+      padding:56px 0;
       display:flex;
       align-items:center;
       justify-content:center;
-      overflow:hidden;
     }
-
-    /* Parallax mountain silhouette — uses logo as mask */
-    .mountain-overlay{
-      position:fixed;
-      left:0; right:0;
-      top:84px; /* just under header */
-      height:420px;
-      pointer-events:none;
-      z-index:30;
-      background-color: rgba(42,71,37,0.36);
-      -webkit-mask-image: url('images/Eschol_Final_logo.jpg');
-      -webkit-mask-repeat: no-repeat;
-      -webkit-mask-position: top center;
-      -webkit-mask-size: 56% auto;
-      mask-image: url('images/Eschol_Final_logo.jpg');
-      mask-repeat: no-repeat;
-      mask-position: top center;
-      mask-size: 56% auto;
-      transition: transform 120ms linear, opacity 120ms linear;
-      will-change: transform, opacity;
-    }
-
-    .carousel{ position:relative; width:100%; height:100%; }
-    .carousel-inner{ position:relative; width:100%; height:100%; }
-    .slide{
-      position:absolute; inset:0; background-position:center; background-size:cover; background-repeat:no-repeat;
-      opacity:0; transition: opacity 900ms ease; display:flex; align-items:center;
-      justify-content:flex-start; padding-left:8%;
-    }
-    .slide.visible{ opacity:1; z-index:4; }
-    .slide::after{
-      content:""; position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0.65) 100%);
-      pointer-events:none;
-    }
-
-    /* Hero content */
-    .hero-content{
-      position:relative; z-index:6; max-width:720px; color:#fff;
-      padding:18px;
-      backdrop-filter: none;
-    }
-    .hero h1{
-      margin:0 0 12px; font-weight:700; letter-spacing:2px;
-      font-size: clamp(28px, 5vw, 56px);
-      color:#fff;
-    }
-    .hero p{
-      margin:0 0 18px; font-weight:300; color: rgba(255,255,255,0.92); max-width:740px; line-height:1.6;
-      font-size: clamp(14px, 1.6vw, 18px);
-    }
-
-    /* Glass (iOS-like) buttons */
-    .btn-row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .hero-inner{ max-width:var(--max-width); margin:0 auto; padding:0 20px; display:flex; gap:28px; align-items:center; flex-wrap:wrap; }
+    .hero-text{ flex:1 1 480px; }
+    .hero-text h2{ margin:0 0 12px; font-size:34px; color:var(--text); }
+    .hero-text p{ margin:0 0 18px; color:#47514b; line-height:1.6; }
+    .hero-cta{ display:flex; gap:12px; flex-wrap:wrap; }
     .btn{
-      display:inline-flex; align-items:center; gap:10px; padding:12px 18px; min-height:44px;
-      border-radius:10px; font-weight:700; text-decoration:none;
-      background: linear-gradient(180deg, var(--glass-white), rgba(255,255,255,0.88));
-      color:var(--dark-green);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
-      border: 1px solid rgba(255,255,255,0.6);
-      backdrop-filter: blur(6px);
+      display:inline-block; background:var(--accent); color:#fff; padding:12px 18px; border-radius:8px; font-weight:700;
+      text-decoration:none;
     }
-    .btn.secondary{
-      background: rgba(255,255,255,0.1);
-      color: #e9f6ea;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow:none;
+    .btn.ghost{ background:transparent; color:var(--accent); border:1px solid var(--accent); }
+
+    .hero-image{ flex:1 1 420px; text-align:center; }
+    .hero-image img{ border-radius:12px; box-shadow:0 10px 30px rgba(10,20,15,0.06); max-height:360px; object-fit:cover; width:100%; }
+
+    /* -------------------------
+       Services
+       ------------------------- */
+    .section{ padding:56px 0; }
+    .section h3{ margin:0 0 16px; color:var(--accent); text-transform:uppercase; letter-spacing:1.8px; }
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+      gap:18px;
+      margin-top:18px;
     }
-    .btn:active{ transform: translateY(1px) }
-
-    /* dots */
-    .dots{ position:absolute; left:50%; transform:translateX(-50%); bottom:30px; display:flex; gap:10px; z-index:60; }
-    .dot{ width:12px; height:12px; border-radius:50%; background: rgba(255,255,255,0.3); cursor:pointer; border:2px solid rgba(0,0,0,0.08)}
-    .dot.active{ background:#fff; box-shadow: 0 6px 18px rgba(0,0,0,0.28); }
-
-    /* ==========================
-       After-hero split section: Gallery | Reviews
-       ========================== */
-    .split{
-      display:flex; gap:24px; align-items:flex-start; max-width:var(--max-width); margin:0 auto; padding:48px 18px;
-      flex-wrap:wrap;
+    .service{
+      background:#fff; border:1px solid #eef2f2; padding:18px; border-radius:10px; box-shadow:0 6px 18px rgba(12,18,14,0.03);
     }
-    .left, .right{ flex:1 1 420px; min-width:280px; background: rgba(255,255,255,0.02); border-radius:10px; padding:18px }
-    .gallery-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-    .gallery-grid img{ width:100%; height:160px; object-fit:cover; border-radius:8px; cursor:pointer; display:block; }
+    .service h4{ margin:0 0 8px; }
+    .service p{ margin:0; color:#4b5b55; font-size:14px; line-height:1.5 }
 
-    .reviews{ display:flex; flex-direction:column; gap:12px; }
-    .review{ background: rgba(0,0,0,0.12); padding:12px; border-radius:8px; color:#eef6ee }
-    .review cite{ display:block; margin-top:8px; font-weight:700; color:#dff0df; }
-
-    /* mobile stacking */
-    @media (max-width:980px){
-      .split{ flex-direction:column; padding:32px 14px }
-      .gallery-grid{ grid-template-columns:repeat(2,1fr) }
+    /* -------------------------
+       Projects (Before / After)
+       ------------------------- */
+    .projects-grid{ display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); margin-top:18px; }
+    .project{
+      background:var(--white); border:1px solid #eef2f2; border-radius:10px; overflow:hidden;
+      display:flex; flex-direction:column;
     }
-    @media (max-width:520px){
-      nav{ display:none }
-      .hamburger{ display:flex }
-      .gallery-grid{ grid-template-columns:1fr }
-      .hero-content{ padding:12px; text-align:center }
-      .slide{ justify-content:center; padding-left:0 }
+    .project .images{ display:flex; gap:6px; padding:12px; background:#fbfbfb; }
+    .project .images img{ width:100%; border-radius:6px; object-fit:cover; height:180px; }
+    .project .meta{ padding:14px; }
+    .project h4{ margin:0 0 6px; }
+    .project p{ margin:0; color:#4b5b55; }
+
+    /* small label */
+    .label{ display:inline-block; background:#eef6ef; color:var(--accent); padding:6px 10px; border-radius:6px; font-weight:700; margin-bottom:10px; }
+
+    /* -------------------------
+       Gallery
+       ------------------------- */
+    .gallery-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px; margin-top:12px; }
+    .gallery-grid img{ width:100%; height:140px; object-fit:cover; border-radius:8px; }
+
+    /* -------------------------
+       Contact & Footer
+       ------------------------- */
+    .contact-card{ background:#fff; padding:18px; border-radius:10px; border:1px solid #eef2f2; max-width:760px; margin:0 auto; text-align:center; }
+    .contact-card p{ margin:8px 0; color:#37463f; }
+
+    footer{ padding:22px 0; text-align:center; color:#6b7a72; border-top:1px solid #eef2f2; }
+
+    /* responsive tweaks */
+    @media (max-width:880px){
+      .hero-inner{ flex-direction:column-reverse; gap:22px; }
+      .hero-text{text-align:center}
     }
-
-    /* ==========================
-       About section
-       ========================== */
-    .about{ padding:54px 18px; text-align:center; }
-    .about h2{ color:var(--accent); font-size:28px; letter-spacing:2px; text-transform:uppercase; margin-bottom:12px }
-    .about p{ max-width:920px; margin:0 auto; font-weight:300; color: rgba(255,255,255,0.9); line-height:1.7 }
-
-    /* ==========================
-       Listings strip
-       ========================== */
-    .listings{ padding:22px 18px 48px; }
-    .listing-row{ display:flex; gap:12px; max-width:var(--max-width); margin:18px auto; flex-wrap:wrap; }
-    .listing-card{
-      background: rgba(255,255,255,0.03); padding:18px; border-radius:8px; flex:1 1 320px; min-width:260px;
-    }
-    .listing-card h3{ margin:0 0 6px; color:#fff }
-    .listing-meta{ font-size:14px; color:rgba(255,255,255,0.8); margin-bottom:12px;}
-
-    /* ==========================
-       Contact + Map + Footer
-       ========================== */
-    .contact-section{ padding:36px 18px; max-width:var(--max-width); margin:0 auto; }
-    .socials{ display:flex; gap:12px; align-items:center; justify-content:center; margin-top:8px }
-    .socials a{ display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:8px; background:rgba(255,255,255,0.04); color:#fff; text-decoration:none; }
-    .map-wrap{ margin-top:22px; border-radius:10px; overflow:hidden; box-shadow:0 6px 26px rgba(0,0,0,0.28); }
-
-    footer{ background:var(--dark-green); color:rgba(255,255,255,0.85); padding:20px 18px; text-align:center; }
-
-    /* focus outlines */
-    :focus{ outline: 3px solid rgba(200,235,215,0.16); outline-offset:3px }
   </style>
 </head>
 <body>
   <!-- Header -->
-  <header role="banner" aria-label="Main header">
-    <div class="header-left">
-      <a href="#home" class="logo-circle" aria-label="Eschol Properties home">
-        <img src="images/Eschol_Final_logo.jpg" alt="Eschol Properties logo">
-      </a>
-      <div class="brand">Eschol Properties</div>
+  <header>
+    <div class="container nav-row">
+      <div class="brand">
+        <!-- place your logo file at images/Eschol_Final_logo.jpg -->
+        <img src="images/Eschol_Final_logo.jpg" alt="Eschol logo" />
+        <h1>Eschol Properties</h1>
+      </div>
+
+      <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+
+        <!-- Services dropdown -->
+        <span class="dropdown" style="display:inline-block;">
+          <a href="#services">Services ▾</a>
+          <div class="dropdown-menu" aria-hidden="true">
+            <a href="#selling">Selling</a>
+            <a href="#buying">Buying & Promoting</a>
+            <a href="#lands">Lands</a>
+            <a href="#flats">Residential Flats</a>
+          </div>
+        </span>
+
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
-
-    <!-- desktop nav -->
-    <nav role="navigation" aria-label="Primary navigation">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#listings">Listings</a>
-      <a href="#contact">Contact</a>
-    </nav>
-
-    <!-- mobile hamburger (not expanding menu in this single-file but left for enhancement) -->
-    <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu" title="Menu" onclick="alert('Add mobile menu if required')">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#072014" d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
-    </button>
   </header>
 
-  <!-- Parallax mountain silhouette -->
-  <div class="mountain-overlay" id="mountainOverlay" aria-hidden="true"></div>
-
-  <!-- HERO with Carousel -->
-  <main>
-    <section class="hero" id="home" aria-label="Hero section with featured images">
-      <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Featured properties">
-        <div class="carousel-inner" id="carouselInner" role="list">
-          <!-- slides: place your banner images in images/slide1.jpg ... slide7.jpg -->
-          <div class="slide visible" role="listitem" aria-label="Slide 1" style="background-image:url('images/slide1.jpg')"></div>
-          <div class="slide" role="listitem" aria-label="Slide 2" style="background-image:url('images/slide2.jpg')"></div>
-          <div class="slide" role="listitem" aria-label="Slide 3" style="background-image:url('images/slide3.jpg')"></div>
-          <div class="slide" role="listitem" aria-label="Slide 4" style="background-image:url('images/slide4.jpg')"></div>
-          <div class="slide" role="listitem" aria-label="Slide 5" style="background-image:url('images/slide5.jpg')"></div>
-          <div class="slide" role="listitem" aria-label="Slide 6" style="background-image:url('images/slide6.jpg')"></div>
-          <div class="slide" role="listitem" aria-label="Slide 7" style="background-image:url('images/slide7.jpg')"></div>
+  <!-- HERO -->
+  <section id="home" class="hero" aria-label="Hero">
+    <div class="hero-inner container">
+      <div class="hero-text">
+        <h2>Trusted property buying & selling across India</h2>
+        <p>We assist buyers and sellers with residential homes, farm lands and development plots — transparent valuations and local expertise at every step.</p>
+        <div class="hero-cta">
+          <a class="btn" href="#services">Our Services</a>
+          <a class="btn ghost" href="#contact">Contact Us</a>
         </div>
+      </div>
 
-        <!-- Hero content over slides -->
-        <div class="hero-content" role="region" aria-label="Introduction">
-          <h1>Welcome to Eschol Properties</h1>
-          <p>We help buyers and sellers with residential homes, farmland and development plots across Maharashtra and beyond — with transparency, local knowledge, and personal service.</p>
+      <div class="hero-image">
+        <!-- sample placeholder: place hero image at images/hero.jpg -->
+        <img src="images/hero.jpg" alt="Hero property / farmland image">
+      </div>
+    </div>
+  </section>
 
-          <div class="btn-row" role="group" aria-label="Hero actions">
-            <a class="btn" href="#about" id="knowMoreBtn">Know More</a>
-            <a class="btn secondary" href="#contact" id="contactBtn">Contact Us</a>
+  <!-- SERVICES -->
+  <section id="services" class="section container">
+    <h3>Services</h3>
+    <div class="services-grid">
+      <div class="service" id="selling">
+        <h4>Selling</h4>
+        <p>Valuation, marketing and end-to-end handling of sales for homes, plots and farmland.</p>
+      </div>
+
+      <div class="service" id="buying">
+        <h4>Buying & Promoting</h4>
+        <p>We match buyers with verified properties and assist with negotiations and closing.</p>
+      </div>
+
+      <div class="service" id="lands">
+        <h4>Lands</h4>
+        <p>Assistance on agricultural and development land — surveys, title checks and documentation.</p>
+      </div>
+
+      <div class="service" id="flats">
+        <h4>Residential Flats</h4>
+        <p>Curated flats listings with locality insights and investment guidance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section container">
+    <h3>Projects</h3>
+    <p style="color:#556a5f; max-width:860px; margin:8px 0 18px;">Completed projects & ongoing developments — shown in before / after format where available.</p>
+
+    <!-- Completed -->
+    <div style="margin-top:18px;">
+      <div class="label">Completed</div>
+      <div class="projects-grid">
+        <article class="project">
+          <div class="images">
+            <!-- BEFORE image at images/projects/open-land-before.jpg -->
+            <img src="images/projects/open-land-before.jpg" alt="Before - open land">
+            <!-- AFTER image at images/projects/open-land-after.jpg -->
+            <img src="images/projects/open-land-after.jpg" alt="After - fenced and developed">
           </div>
-        </div>
-
-        <!-- navigation dots -->
-        <div class="dots" id="dots" aria-hidden="false"></div>
-      </div>
-    </section>
-
-    <!-- Split: Gallery / Reviews -->
-    <section class="split" aria-label="Gallery and reviews">
-      <div class="left" aria-labelledby="galleryHeading">
-        <h3 id="galleryHeading" style="margin-top:0;color:var(--accent)">Photo Gallery</h3>
-        <div class="gallery-grid" id="galleryGrid">
-          <img src="images/gallery1.jpg" alt="Gallery image 1" loading="lazy">
-          <img src="images/gallery2.jpg" alt="Gallery image 2" loading="lazy">
-          <img src="images/gallery3.jpg" alt="Gallery image 3" loading="lazy">
-          <img src="images/gallery4.jpg" alt="Gallery image 4" loading="lazy">
-          <img src="images/gallery5.jpg" alt="Gallery image 5" loading="lazy">
-          <img src="images/gallery6.jpg" alt="Gallery image 6" loading="lazy">
-        </div>
-      </div>
-
-      <aside class="right" aria-labelledby="reviewsHeading">
-        <h3 id="reviewsHeading" style="margin-top:0;color:var(--accent)">What Clients Say</h3>
-        <div class="reviews" id="reviews">
-          <blockquote class="review">
-            "Eschol helped us find the perfect farmland quickly. Transparent, professional, and patient through every step."
-            <cite>- R. Sharma, Mira Road</cite>
-          </blockquote>
-          <blockquote class="review">
-            "We sold our property with Eschol in 2 weeks — great valuation and communication throughout."
-            <cite>- Anita &amp; Sameer</cite>
-          </blockquote>
-          <blockquote class="review">
-            "Highly recommended for hassle-free paperwork and honest advice."
-            <cite>- P. Kulkarni</cite>
-          </blockquote>
-        </div>
-      </aside>
-    </section>
-
-    <!-- About -->
-    <section class="about" id="about" aria-labelledby="aboutHeading">
-      <h2 id="aboutHeading">About Eschol Properties</h2>
-      <p>
-        Eschol Properties is a local real-estate advisory focused on residential homes, agriculture &amp; farm lands, and development plots across Mira Road and surrounding regions.
-        We guide buyers and sellers with transparent valuations, verified documentation, and friendly human support. Our goal is to make property transactions simple and fair — building relationships that last.
-      </p>
-      <p style="margin-top:12px; font-weight:400">
-        <strong>Our motivation:</strong> to deliver trusted local expertise and a personalized service experience — whether you're buying your first home, selling a family plot, or investing in farmland.
-      </p>
-      <p style="margin-top:18px">
-        <a class="btn" href="#contact">Get in touch</a>
-      </p>
-    </section>
-
-    <!-- Recent Listings -->
-    <section class="listings" id="listings" aria-labelledby="listingsHeading">
-      <h2 id="listingsHeading" style="text-align:center; color:var(--accent); margin:0 0 12px">Recent Listings</h2>
-      <p style="text-align:center; max-width:900px; margin:0 auto 18px; color:rgba(255,255,255,0.85)">Select properties we represent — contact us to schedule a visit or request full details.</p>
-
-      <div class="listing-row" role="list">
-        <article class="listing-card" role="listitem">
-          <h3>3 BHK Family Home — Mira Road</h3>
-          <div class="listing-meta">Price: ₹1,25,00,000 • 3 beds, 2 baths • 1800 sqft</div>
-          <p style="margin:0 0 12px; color:rgba(255,255,255,0.78)">Beautiful tree-lined street, close to schools and transit. Recently renovated kitchen and backyard terrace.</p>
-          <p style="display:flex; gap:8px; margin-top:12px">
-            <a class="btn" href="#contact">Get Info</a>
-            <a class="btn secondary" href="#map">Locate It</a>
-          </p>
+          <div class="meta">
+            <h4>1000 Acres Sold — Example Project</h4>
+            <p>Open land fenced and sold; subsequent housing development begun. (Before / After showcase)</p>
+          </div>
         </article>
 
-        <article class="listing-card" role="listitem">
-          <h3>2 Acre Farmland — Thane</h3>
-          <div class="listing-meta">Price: ₹45,00,000 • Irrigated land • Road access</div>
-          <p style="margin:0 0 12px; color:rgba(255,255,255,0.78)">Lush plot suitable for horticulture or long-term investment. Documents verified and clear title.</p>
-          <p style="display:flex; gap:8px; margin-top:12px">
-            <a class="btn" href="#contact">Get Info</a>
-            <a class="btn secondary" href="#map">Locate It</a>
-          </p>
-        </article>
-
-        <article class="listing-card" role="listitem">
-          <h3>Residential Plot — Mira Road</h3>
-          <div class="listing-meta">Price: On request • Corner plot • Rapidly developing area</div>
-          <p style="margin:0 0 12px; color:rgba(255,255,255,0.78)">Corner plot in desirable neighbourhood with development approvals underway.</p>
-          <p style="display:flex; gap:8px; margin-top:12px">
-            <a class="btn" href="#contact">Get Info</a>
-            <a class="btn secondary" href="#map">Locate It</a>
-          </p>
+        <article class="project">
+          <div class="images">
+            <img src="images/projects/plot-before.jpg" alt="plot before">
+            <img src="images/projects/plot-after.jpg" alt="plot after">
+          </div>
+          <div class="meta">
+            <h4>Smaller Plot Conversion</h4>
+            <p>Converted an open land parcel into plots with infrastructure — completed sale.</p>
+          </div>
         </article>
       </div>
-    </section>
+    </div>
 
-    <!-- Contact + Socials + Map -->
-    <section class="contact-section" id="contact" aria-labelledby="contactHeading">
-      <h2 id="contactHeading" style="text-align:center; color:var(--accent)">Contact Eschol</h2>
-      <div style="max-width:820px; margin:12px auto; text-align:center; color:rgba(255,255,255,0.9)">
-        <p style="margin:6px 0">Phone: <a href="tel:+919876543210" style="color:#fff; text-decoration:underline">+91-9876543210</a></p>
-        <p style="margin:6px 0">Email: <a href="mailto:info@escholproperties.com" style="color:#fff; text-decoration:underline">info@escholproperties.com</a></p>
-        <div class="socials" role="list" aria-label="Social links">
-          <!-- Instagram -->
-          <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
-            <!-- simple original SVG icon -->
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5z" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 8.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.5 6.5h.01" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+    <!-- In-progress -->
+    <div style="margin-top:28px;">
+      <div class="label">In Progress</div>
+      <div class="projects-grid">
+        <article class="project">
+          <div class="images">
+            <img src="images/projects/inprogress-1.jpg" alt="In progress open land">
+          </div>
+          <div class="meta">
+            <h4>850 Acres — In Progress</h4>
+            <p>Large-scale land development and plotting in progress. Documentation and clearance ongoing.</p>
+          </div>
+        </article>
 
-          <!-- Email -->
-          <a href="mailto:info@escholproperties.com" aria-label="Email" title="Email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 8l9 6 9-6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 8v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-
-          <!-- WhatsApp -->
-          <a href="https://wa.me/919876543210" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 3.5A11 11 0 103.9 19.2L3 21l1.9-.5A11 11 0 0020.5 3.5z" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.5 14.5c-.3-.2-1.8-1-2-1.1s-.4-.1-.6.1c-.3.2-1 .5-1.9-.6-.2-.3-1.3-1.6-1.9-1.9-.5-.3-.9-.1-1.1.1-.2.2-.9 1.1-.9 2.6 0 1.4 1 2.7 1.1 2.9.1.2 1.8 2.9 4.6 3.9 2.9 1.1 3-.1 3.3-.2.3-.1 1.1-.4 1.2-.9.1-.5.1-.9.1-1 0-.1-.4-.3-.7-.5z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-        </div>
-
-        <!-- Map area -->
-        <div id="map" class="map-wrap" style="margin-top:20px; height:340px;">
-          <!-- Responsive google maps iframe — replace the src with your actual embed link or API integration -->
-          <iframe
-            title="Eschol Properties locations"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3772.114785835124!2d72.85616481490123!3d19.29523258695602!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b0e4a91b3e37%3A0x8edbe548601c29c5!2sMira%20Road%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1699372202907!5m2!1sen!2sin"
-            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+        <article class="project">
+          <div class="images">
+            <img src="images/projects/inprogress-2.jpg" alt="In progress 2">
+          </div>
+          <div class="meta">
+            <h4>New Residential Scheme</h4>
+            <p>Layout and approvals underway — expected release of plots next quarter.</p>
+          </div>
+        </article>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <!-- Footer -->
+  <!-- GALLERY -->
+  <section class="section container">
+    <h3>Gallery</h3>
+    <div class="gallery-grid" aria-label="Gallery">
+      <!-- add your gallery thumbnails here in images/galleryX.jpg -->
+      <img src="images/gallery1.jpg" alt="Gallery 1">
+      <img src="images/gallery2.jpg" alt="Gallery 2">
+      <img src="images/gallery3.jpg" alt="Gallery 3">
+      <img src="images/gallery4.jpg" alt="Gallery 4">
+      <img src="images/gallery5.jpg" alt="Gallery 5">
+      <img src="images/gallery6.jpg" alt="Gallery 6">
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section" style="background:var(--muted);">
+    <div class="container">
+      <div class="contact-card">
+        <h3>Contact Us</h3>
+        <p>Phone: <a href="tel:+919876543210">+91-9876543210</a> &nbsp; | &nbsp; Email: <a href="mailto:info@escholproperties.com">info@escholproperties.com</a></p>
+        <p>Follow: <a href="https://instagram.com/" target="_blank">Instagram</a> • <a href="https://wa.me/919876543210" target="_blank">WhatsApp</a></p>
+      </div>
+      <div style="margin-top:18px; text-align:center;">
+        <!-- responsive google maps embed -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3772.114785835124!2d72.85616481490123!3d19.29523258695602!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b0e4a91b3e37%3A0x8edbe548601c29c5!2sMira%20Road%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1699372202907!5m2!1sen!2sin" width="100%" height="360" style="border:0; border-radius:10px;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
   <footer>
-    © <span id="year"></span> Eschol Properties — All Rights Reserved
+    <div class="container" style="padding:18px 0;">
+      <small>© <span id="year"></span> Eschol Properties — All rights reserved.</small>
+    </div>
   </footer>
 
-  <!-- ==========================
-       Scripts: Carousel, Smooth Scroll, Parallax
-       ========================== -->
+  <!-- -------------------------
+       Scripts
+       ------------------------- -->
   <script>
-    // set current year
-    (function(){
-      const y = new Date().getFullYear();
-      document.getElementById('year').textContent = isFinite(y) ? y : '';
-    })();
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    /* Carousel behavior: autoplay, dots, keyboard, swipe */
-    (function(){
-      const slides = Array.from(document.querySelectorAll('.slide'));
-      const dotsWrap = document.getElementById('dots');
-      const total = slides.length;
-      let current = 0;
-      const intervalMs = 4500;
-      let timer = null;
-
-      // Create dots
-      slides.forEach((s,i)=>{
-        const b = document.createElement('button');
-        b.className = 'dot';
-        b.type = 'button';
-        b.setAttribute('aria-label','Go to slide ' + (i+1));
-        b.addEventListener('click', ()=> goTo(i, true));
-        dotsWrap.appendChild(b);
-      });
-      const dots = Array.from(dotsWrap.children);
-
-      function show(i){
-        slides.forEach((sl,idx)=> {
-          sl.classList.toggle('visible', idx === i);
-        });
-        dots.forEach((d,idx)=> d.classList.toggle('active', idx === i));
-      }
-
-      function goTo(i, user){
-        current = (i + total) % total;
-        show(current);
-        if(user) resetTimer();
-      }
-
-      function next(){
-        current = (current + 1) % total;
-        show(current);
-      }
-
-      function resetTimer(){
-        if(timer) clearInterval(timer);
-        timer = setInterval(next, intervalMs);
-      }
-
-      // Init
-      show(current);
-      resetTimer();
-
-      // Pause on hover or focus
-      const carousel = document.querySelector('.carousel');
-      carousel.addEventListener('mouseenter', ()=> { if(timer) clearInterval(timer); timer = null; });
-      carousel.addEventListener('mouseleave', ()=> { if(!timer) timer = setInterval(next, intervalMs); });
-
-      // keyboard
-      carousel.addEventListener('keydown', (e) => {
-        if(e.key === 'ArrowLeft') goTo(current - 1, true);
-        if(e.key === 'ArrowRight') goTo(current + 1, true);
-      });
-
-      // swipe for touch
-      let startX = 0;
-      carousel.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive:true});
-      carousel.addEventListener('touchend', e => {
-        const dx = e.changedTouches[0].clientX - startX;
-        if(Math.abs(dx) > 40) dx < 0 ? goTo(current + 1, true) : goTo(current - 1, true);
-      }, {passive:true});
-    })();
-
-    /* Smooth scroll for buttons & nav */
-    (function(){
-      function smoothScrollTo(hash){
-        const el = document.querySelector(hash);
-        if(!el) return;
-        const headerOffset = 84; // header height
-        const top = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-        window.scrollTo({ top, behavior:'smooth' });
-      }
-      document.getElementById('knowMoreBtn').addEventListener('click', function(e){ e.preventDefault(); smoothScrollTo('#about'); });
-      document.getElementById('contactBtn').addEventListener('click', function(e){ e.preventDefault(); smoothScrollTo('#contact'); });
-      document.querySelectorAll('nav a').forEach(a => {
-        a.addEventListener('click', function(e){
-          const href = this.getAttribute('href');
-          if(href && href.startsWith('#')){ e.preventDefault(); smoothScrollTo(href); }
-        });
-      });
-    })();
-
-    /* Parallax mountain overlay: move up & fade on scroll */
-    (function(){
-      const overlay = document.getElementById('mountainOverlay');
-      if(!overlay) return;
-      const fadeEnd = 340;
-      const maxTranslate = 160;
-      let ticking = false;
-      function onScroll(){
-        const s = window.scrollY || window.pageYOffset;
-        const t = Math.min(1, s / fadeEnd);
-        overlay.style.transform = 'translateY(' + (-t * maxTranslate) + 'px)';
-        overlay.style.opacity = String(Math.max(0, 1 - (s / fadeEnd)));
-      }
-      window.addEventListener('scroll', ()=> {
-        if(!ticking){
-          window.requestAnimationFrame(()=>{ onScroll(); ticking = false; });
-          ticking = true;
+    // Smooth scrolling for internal nav
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        const target = this.getAttribute('href');
+        if(target.length > 1){
+          e.preventDefault();
+          const el = document.querySelector(target);
+          if(el){
+            const top = el.getBoundingClientRect().top + window.pageYOffset - 64;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
         }
-      }, {passive:true});
-      onScroll();
+      });
+    });
+
+    // Basic lightbox for gallery (click thumbnail to open in a simple overlay)
+    (function(){
+      const imgs = document.querySelectorAll('.gallery-grid img, .project .images img');
+      const overlay = document.createElement('div');
+      overlay.style.position='fixed';
+      overlay.style.inset=0;
+      overlay.style.background='rgba(0,0,0,0.85)';
+      overlay.style.display='none';
+      overlay.style.alignItems='center';
+      overlay.style.justifyContent='center';
+      overlay.style.zIndex=9999;
+      overlay.style.padding='20px';
+      document.body.appendChild(overlay);
+
+      const big = document.createElement('img');
+      big.style.maxWidth='100%';
+      big.style.maxHeight='100%';
+      big.style.borderRadius='10px';
+      overlay.appendChild(big);
+
+      overlay.addEventListener('click', ()=> overlay.style.display='none');
+
+      imgs.forEach(img=>{
+        img.style.cursor='zoom-in';
+        img.addEventListener('click', ()=>{
+          big.src = img.src;
+          overlay.style.display='flex';
+        });
+      });
     })();
   </script>
 </body>
