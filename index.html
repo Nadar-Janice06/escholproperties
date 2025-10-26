@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Eschol Properties</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --dark-green: #172615;
+      --mid-green: #2a4725;
+      --light-green: #7ba68a;
+      --beige: #f4f4f0;
+      --max-width: 1200px;
+      --glass-white: rgba(255,255,255,0.95);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Poppins",sans-serif;
+      background:var(--dark-green);
+      color:#111;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Header */
+    header{
+      background:var(--light-green);
+      padding:14px 22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      position:sticky;
+      top:0;
+      z-index:1000;
+      box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    }
+    .brand{display:flex;align-items:center;gap:12px;}
+    .brand img{height:48px;width:48px;border-radius:50%;}
+    .brand h1{font-size:18px;margin:0;color:var(--dark-green);font-weight:700;}
+    nav a{color:var(--dark-green);text-decoration:none;margin:0 12px;font-weight:600;}
+    nav a:hover{text-decoration:underline;}
+
+    .container{max-width:var(--max-width);margin:0 auto;padding:0 20px;}
+
+    /* Hero */
+    .hero{position:relative;overflow:hidden;}
+    .carousel{display:flex;transition:transform 1s ease;}
+    .slide{
+      min-width:100%;height:600px;
+      background-size:cover;background-position:center;
+      display:flex;align-items:center;padding:60px;
+      position:relative;
+    }
+    .overlay{position:absolute;inset:0;background:rgba(0,0,0,0.4);}
+    .slide-content{
+      position:relative;z-index:2;color:#fff;max-width:600px;
+      background:rgba(0,0,0,0.25);padding:24px;border-radius:8px;
+      backdrop-filter:blur(6px);
+    }
+    .slide-content h2{margin:0 0 12px;font-size:40px;}
+    .slide-content p{margin:0 0 16px;font-weight:300;}
+    .btn{
+      display:inline-block;background:var(--glass-white);
+      color:var(--dark-green);padding:12px 18px;
+      border-radius:8px;font-weight:700;text-decoration:none;
+      box-shadow:0 6px 16px rgba(0,0,0,0.2);
+    }
+    .dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.5);cursor:pointer;}
+    .dot.active{background:var(--light-green);}
+
+    /* Feature (2+ Years) */
+    .feature{
+      display:flex;justify-content:center;align-items:center;
+      padding:40px 20px;background:transparent;
+    }
+    .feature-card{
+      background:rgba(255,255,255,0.05);
+      border-radius:16px;padding:20px 30px;
+      display:flex;align-items:center;gap:20px;
+      color:#fff;opacity:0;transform:translateY(20px);
+      transition:all .6s ease-out;
+      max-width:900px;width:100%;
+    }
+    .feature-card.inview{opacity:1;transform:translateY(0);}
+    .feature-card img{width:120px;height:120px;border-radius:50%;}
+    .feature-text h3{margin:0;font-size:24px;}
+    .feature-text p{margin:6px 0 0;font-weight:300;color:rgba(255,255,255,0.9);}
+
+    /* Main surface */
+    main{background:#fff;border-radius:24px 24px 0 0;margin-top:-40px;padding:50px 20px;color:#222;}
+
+    /* Projects */
+    .projects{display:flex;flex-wrap:wrap;gap:20px;}
+    .project-card{flex:1 1 260px;background:#fff;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,0.06);}
+    .project-card img{width:100%;height:200px;object-fit:cover;border-radius:12px 12px 0 0;}
+    .project-card h4{margin:12px;color:var(--mid-green);}
+    .project-card p{margin:0 12px 12px;color:#666;}
+
+    /* Values section */
+    .values{
+      display:grid;grid-template-columns:520px 1fr;gap:28px;align-items:center;margin-top:60px;
+    }
+    .values img{width:100%;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,0.08);}
+    .rotating{animation:spin 36s linear infinite;}
+    @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+    /* Founder */
+    .founder{display:flex;flex-wrap:wrap;align-items:center;gap:40px;margin-top:50px;}
+    .founder img{width:400px;border-radius:20px;box-shadow:0 10px 28px rgba(0,0,0,0.08);}
+    .founder h3{margin:0 0 10px;color:var(--mid-green);font-size:32px;}
+    .founder p{color:#444;line-height:1.6;}
+
+    /* Contact + Footer */
+    .contact{margin-top:60px;}
+    .map iframe{width:100%;height:360px;border:0;border-radius:12px;}
+    footer{background:var(--dark-green);color:#fff;text-align:center;padding:20px;margin-top:40px;border-radius:12px 12px 0 0;}
+
+    @media(max-width:900px){
+      .values{grid-template-columns:1fr;}
+      .founder{flex-direction:column;}
+      .slide-content h2{font-size:28px;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <img src="images/logo.png" alt="Eschol logo">
+      <h1>Eschol Properties</h1>
+    </div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="carousel" id="carousel">
+      <div class="slide" style="background-image:url('images/hero1.jpg')">
+        <div class="overlay"></div>
+        <div class="slide-content">
+          <h2>Buy & Sell with Confidence</h2>
+          <p>Transparent property transactions across Mira Road, Mumbai and beyond.</p>
+          <a href="#about" class="btn">Know More</a>
+        </div>
+      </div>
+      <div class="slide" style="background-image:url('images/hero2.jpg')">
+        <div class="overlay"></div>
+        <div class="slide-content">
+          <h2>Prime Residential Listings</h2>
+          <p>Curated homes and investment-ready properties for discerning buyers.</p>
+          <a href="#projects" class="btn">View Listings</a>
+        </div>
+      </div>
+      <div class="slide" style="background-image:url('images/hero3.jpg')">
+        <div class="overlay"></div>
+        <div class="slide-content">
+          <h2>Land & Development Opportunities</h2>
+          <p>Explore verified land parcels for future projects and investments.</p>
+          <a href="#contact" class="btn">Contact Us</a>
+        </div>
+      </div>
+    </div>
+    <div class="dots" id="dots"></div>
+  </section>
+
+  <!-- Feature -->
+  <section class="feature">
+    <div id="featureCard" class="feature-card">
+      <img src="images/feature-number.png" alt="2+ Years of Trust">
+      <div class="feature-text">
+        <h3>2+ Years of Trusted Service</h3>
+        <p>Local expertise and transparent property transactions you can rely on.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main>
+    <section id="projects">
+      <h2 style="text-align:center;color:var(--mid-green)">Recent Listings</h2>
+      <div class="projects">
+        <div class="project-card">
+          <img src="images/project1.jpg" alt="">
+          <h4>Project One</h4><p>Mira Road - Residential</p>
+        </div>
+        <div class="project-card">
+          <img src="images/project2.jpg" alt="">
+          <h4>Project Two</h4><p>Farmland - Affordable plots</p>
+        </div>
+        <div class="project-card">
+          <img src="images/project3.jpg" alt="">
+          <h4>Project Three</h4><p>Commercial development</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values -->
+    <section id="about" class="values">
+      <div>
+        <img id="valuesGraphic" src="images/value-graphic.png" alt="Company Values">
+      </div>
+      <div>
+        <h2 style="color:var(--mid-green)">Our Company Values</h2>
+        <p>Built on trust, transparency, and integrity — we deliver real estate solutions that create lasting value for our clients.</p>
+        <p>Our mission is to empower every property buyer and seller through honest service and deep local knowledge.</p>
+      </div>
+    </section>
+
+    <!-- Founder -->
+    <section class="founder">
+      <div>
+        <h3>"Omkar Bhagat"</h3>
+        <p>Omkar Bhagat and his father have been passionately shaping developments driven by a vision of quality, trust, and innovation. Omkar, currently pursuing Civil Engineering at <strong>Amity University</strong>, blends academic knowledge with hands-on real estate experience to bring modern thinking into the family’s construction legacy.</p>
+      </div>
+      <img src="images/founder.jpg" alt="Founder">
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+      <h2 style="color:var(--mid-green)">Contact Us</h2>
+      <p>Email: <a href="mailto:info@escholproperties.com">info@escholproperties.com</a> | Phone: <a href="tel:+919876543210">+91-9876543210</a></p>
+      <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3772.114785835124!2d72.85616481490123!3d19.29523258695602!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b0e4a91b3e37%3A0x8edbe548601c29c5!2sMira%20Road%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1699372202907!5m2!1sen!2sin" loading="lazy"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Eschol Properties | All Rights Reserved
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Carousel
+    const carousel = document.getElementById('carousel');
+    const slides = carousel.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('dots');
+    let current = 0, total = slides.length, timer;
+    slides.forEach((_,i)=>{
+      const dot=document.createElement('div');
+      dot.className='dot'+(i===0?' active':'');
+      dot.addEventListener('click',()=>goTo(i));
+      dotsContainer.appendChild(dot);
+    });
+    const dots=dotsContainer.children;
+    function goTo(i){
+      current=i;
+      carousel.style.transform='translateX(-'+(100*i)+'%)';
+      [...dots].forEach((d,idx)=>d.classList.toggle('active',idx===i));
+      reset();
+    }
+    function next(){current=(current+1)%total;goTo(current);}
+    function reset(){clearInterval(timer);timer=setInterval(next,4500);}
+    reset();
+
+    // Swipe
+    let startX=0;
+    carousel.addEventListener('touchstart',e=>startX=e.touches[0].clientX);
+    carousel.addEventListener('touchend',e=>{
+      let dx=e.changedTouches[0].clientX-startX;
+      if(Math.abs(dx)>50){if(dx<0)next();else goTo((current-1+total)%total);}
+    });
+
+    // Feature animation
+    const f=document.getElementById('featureCard');
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){f.classList.add('inview');io.disconnect();}
+      });
+    },{threshold:0.3});
+    io.observe(f);
+
+    // Values rotation
+    const v=document.getElementById('valuesGraphic');
+    const iv=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){v.classList.add('rotating');iv.disconnect();}
+      });
+    },{threshold:0.3});
+    iv.observe(v);
+  </script>
+</body>
+</html>
